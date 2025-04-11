@@ -7,36 +7,39 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  SafeAreaView,
 } from "react-native";
 
 export default function UserList() {
   const { data: loadedData, loading: isLoading, forceReload } = useGetData();
 
   return (
-    <View style={styles.container}>
-      {loadedData ? (
-        <FlatList
-          data={loadedData}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.listContainer}
-          renderItem={({ item }) => (
-            <View style={styles.item}>
-              <Text style={styles.name}>{item.id}</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        {loadedData ? (
+          <FlatList
+            data={loadedData}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.listContainer}
+            renderItem={({ item }) => (
+              <View style={styles.item}>
+                <Text style={styles.name}>{item.id}</Text>
+              </View>
+            )}
+          />
+        ) : (
+          isLoading && (
+            <View style={styles.container}>
+              <ActivityIndicator size="large" color="#4a90e2" />
             </View>
-          )}
-        />
-      ) : (
-        isLoading && (
-          <View style={styles.container}>
-            <ActivityIndicator size="large" color="#4a90e2" />
-          </View>
-        )
-      )}
+          )
+        )}
 
-      <TouchableOpacity style={styles.fab} onPress={() => forceReload()}>
-        <Text>Reload</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.fab} onPress={() => forceReload()}>
+          <Text>Reload</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
 
