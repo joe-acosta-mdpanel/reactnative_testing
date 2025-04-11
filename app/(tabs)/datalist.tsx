@@ -22,8 +22,9 @@ export default function UserList() {
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.listContainer}
             renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Text style={styles.name}>{item.id}</Text>
+              <View style={[styles.item, { backgroundColor: item.hexColor }]}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.subtitle}>{item.subtitle}</Text>
               </View>
             )}
           />
@@ -54,9 +55,9 @@ const styles = StyleSheet.create({
   },
   item: {
     borderWidth: 1,
+    backgroundColor: "#ff4081",
     padding: 16,
     marginBottom: 12,
-    backgroundColor: "#eee",
     borderRadius: 8,
   },
   fab: {
@@ -74,5 +75,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 5,
   },
-  name: { fontSize: 18 },
+  title: { fontSize: 18 },
+  subtitle: { fontSize: 14 },
 });
