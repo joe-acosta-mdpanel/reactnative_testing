@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 export default function UserList() {
-  const { data: loadedData, loading: isLoading } = useGetData();
+  const { data: loadedData, loading: isLoading, forceReload } = useGetData();
 
   return (
     <View style={styles.container}>
@@ -33,10 +33,7 @@ export default function UserList() {
         )
       )}
 
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={() => console.log("Button pressed!")}
-      >
+      <TouchableOpacity style={styles.fab} onPress={() => forceReload()}>
         <Text>Reload</Text>
       </TouchableOpacity>
     </View>
