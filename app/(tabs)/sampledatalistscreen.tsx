@@ -1,5 +1,9 @@
-import { useGetData } from "@/hooks/useGetData";
+import { useEffect } from "react";
 import React from "react";
+import {
+  useSampleDataList,
+  useSampleDataListBusinessLogic,
+} from "@/colorlist/colorListContext";
 import {
   View,
   Text,
@@ -11,14 +15,23 @@ import {
 } from "react-native";
 
 export default function UserList() {
-  const { data: loadedData, loading: isLoading, forceReload } = useGetData();
+  //observe state
+  const { state } = useSampleDataList();
+
+  //grab our functionality (like the viewmodel's public functions/business logic)
+  const { loadItems } = useSampleDataListBusinessLogic();
+
+  useEffect(() => {
+    console.log("in use effect");
+    loadItems();
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        {loadedData ? (
+        {state.items ? (
           <FlatList
-            data={loadedData}
+            data={state.items}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.listContainer}
             renderItem={({ item }) => (
@@ -29,14 +42,14 @@ export default function UserList() {
             )}
           />
         ) : (
-          isLoading && (
+          state.isLoading && (
             <View style={styles.container}>
               <ActivityIndicator size="large" color="#4a90e2" />
             </View>
           )
         )}
 
-        <TouchableOpacity style={styles.fab} onPress={() => forceReload()}>
+        <TouchableOpacity style={styles.fab} onPress={() => loadItems()}>
           <Text>Reload</Text>
         </TouchableOpacity>
       </View>
